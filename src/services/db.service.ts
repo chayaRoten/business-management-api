@@ -8,6 +8,12 @@ mongoose.set('strictQuery', false);
 main().catch((err) => console.log(err));
 
 async function main(): Promise<void> {
-  console.log('mongodb on http://localhost:27017/Attorney');
-  await mongoose.connect(DATABASE_URL ?? '');
+  try {
+    await mongoose.connect(DATABASE_URL);
+    console.log('Connected to MongoDB successfully!');
+  } catch (error) {
+    console.error('Failed to connect to MongoDB:', error);
+    process.exit(1);
+  }
 }
+

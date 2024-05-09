@@ -1,6 +1,5 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
-
 export interface IBusiness extends Document {
   name: string;
   services: string;

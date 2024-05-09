@@ -1,4 +1,4 @@
-import express, {Express , Request , Response} from 'express'
+import express, { Express, Request, Response } from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import './src/services/db.service';
@@ -7,12 +7,23 @@ import dotenv from 'dotenv';
 import { env } from 'node:process'
 const app: Express = express()
 const PORT = process.env.PORT || 3000
-const DATABASE_URL = env.TZ
+const DATABASE_URL = 4545
 
-// app.use(bodyParser.json())
-// app.use(bodyParser.urlencoded({ extended: false }))
+import businessRouter from './src/routes/business.route'
+import meetingRouter from './src/routes/meeting.route'
+import serviceRouter from './src/routes/services.route'
+import userRouter from './src/routes/user.route'
+
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cors())
+app.use(businessRouter)
+app.use(meetingRouter)
+app.use(serviceRouter)
+app.use(userRouter)
+
 
 app.listen(PORT, () => {
-    console.log(`listening on http://localhost:${PORT}+${DATABASE_URL}`)
-  })
+  console.log(`listening on http://localhost:${PORT}+${DATABASE_URL}`)
+})
