@@ -4,5 +4,7 @@ const router = express.Router();
 
 
 router.get('/business', businessController.GetBusiness)
+router.post('/business', businessController.AddBusiness);
+router.put('/business/:businessId', businessController.UpdateCategory);
 
 export default router;

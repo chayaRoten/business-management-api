@@ -1,4 +1,4 @@
-import { BusinessModel, IBusiness } from '../models/business.model';
+import { BusinessModel} from '../models/business.model';
 
 export const getBusiness = async (): Promise<any> => {
   try {
@@ -11,23 +11,13 @@ export const getBusiness = async (): Promise<any> => {
   }
 }
 
+export const addBusiness = async (businessId: Number,businessName: string, businessAddress: String, businessServices: String): Promise<string> => {
+  await BusinessModel.insertMany({id:businessId, name: businessName, address: businessAddress, services: businessServices });
+  return 'Data Received!';
+};
 
-// async function getBusinessById(businessId: string): Promise<IBusiness | null> {
-//   try {
-//     const business = await BusinessModel.findById(businessId).exec();
-//     return business;
-//   } catch (error) {
-//     console.error('Failed to get business by ID:', error);
-//     throw error;
-//   }
-// }
 
-// async function getBusinesses(): Promise<IBusiness[]> {
-//   try {
-//     const businesses = await BusinessModel.find().exec();
-//     return businesses;
-//   } catch (error) {
-//     console.error('Failed to get businesses:', error);
-//     throw error;
-//   }
-// }
+export const updateBusiness = async (businessId: Number,businessName: string, businessAddress: String, businessServices: String): Promise<string> => {
+  await BusinessModel.updateOne({ id:businessId }, { name: businessName, address: businessAddress, services: businessServices });
+  return 'Data Updated!';
+};

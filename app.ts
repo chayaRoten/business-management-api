@@ -25,5 +25,5 @@ app.use(userRouter)
 
 
 app.listen(PORT, () => {
-  console.log(`listening on http://localhost:${PORT}+${DATABASE_URL}`)
+  console.log(`listening on http://localhost:${PORT}`)
 })
