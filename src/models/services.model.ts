@@ -2,12 +2,12 @@ import mongoose, { Schema, Document, Model } from 'mongoose';
 
 
 export interface IService {
-    serviceName: string;
+    name: string;
     cost: number
 }
 
 const serviceSchema: Schema = new Schema({
-    serviceName: String,
+    name: String,
     cost: Number,
 });
 

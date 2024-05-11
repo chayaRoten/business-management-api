@@ -8,12 +8,12 @@ export const GetBusiness = async (req: Request, res: Response) => {
 
 export const AddBusiness = async (req: Request, res: Response) => {
     const {id, name, address, service } = req.body;
-    const businessNew = await addBusiness(id,name, address, service);
-    res.send(businessNew);
+    const newBusines = await addBusiness(id,name, address, service);
+    res.send(newBusines);
   };
   
   export const UpdateCategory = async (req: Request, res: Response) => {
     const {id, name, address, service  } = req.body;
-    const businessNew = await updateBusiness(id,name, address, service );
-    res.send(businessNew);
+    const newBusines = await updateBusiness(id,name, address, service );
+    res.send(newBusines);
   };
