@@ -7,7 +7,8 @@ export interface IMeeting {
   email: string;
   phone: number;
   details: string;
-  typeOfInquiry: string;
+  service: string;
+  id:number;
 }
 
 const meetingSchema: Schema = new Schema({
@@ -17,6 +18,8 @@ const meetingSchema: Schema = new Schema({
   phone: Number,
   details: String,
   typeOfInquiry: String,
+  service: String,
+  id:Number,
 });
 
 const MeetingModel: Model<IMeeting> = mongoose.model<IMeeting>('meeting', meetingSchema);

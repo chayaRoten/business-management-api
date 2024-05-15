@@ -1,13 +1,12 @@
-import express, { Express, Request, Response } from 'express'
+import express, { Express} from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import './src/services/db.service';
 import dotenv from 'dotenv';
-// dotenv.config();
-import { env } from 'node:process'
+dotenv.config();
+// import { env } from 'node:process'
 const app: Express = express()
-const PORT = process.env.PORT || 3000
-const DATABASE_URL = 4545
+const PORT = process.env.PORT
 
 import businessRouter from './src/routes/business.route'
 import meetingRouter from './src/routes/meeting.route'
