@@ -17,13 +17,13 @@ export const login = async (email: string, password: string, id: number, name: s
         const user = users.find(async x => await bcrypt.compare(password, x.password) && x.email === email);
         if (user) {
             token = jwt.sign(
-                { user_id: user.id, email },
+                { user_id: user?.id, name, email },
                 process.env.TOKEN_KEY || '',
                 {
                     expiresIn: '2h'
                 }
             );
-            return 'token: ' + token;
+            return token;
         } else {
             return 'Invalid Credentials';
         }
@@ -54,7 +54,7 @@ export const register = async (email: string, password: string, id: number, name
         };
 
         const token = jwt.sign(
-            { user_id: user.password, email },
+            { user_id: user?.id, name, email },
             process.env.TOKEN_KEY || '',
             {
                 expiresIn: '2h'
@@ -66,7 +66,7 @@ export const register = async (email: string, password: string, id: number, name
             console.error(err);
             return 'Error occurred during signup';
         }
-        return 'token: ' + token;
+        return token;
     } catch (err) {
         console.log(err);
         return 'Error occurred during signup';

@@ -12,15 +12,17 @@ import businessRouter from './src/routes/business.route'
 import meetingRouter from './src/routes/meeting.route'
 import serviceRouter from './src/routes/services.route'
 import userRouter from './src/routes/user.route'
-
+import authenticateTokenMiddlewares  from './src/middlewares/authentication.middlewares'
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cors())
+app.use(userRouter)
+app.use(authenticateTokenMiddlewares)
 app.use(businessRouter)
 app.use(meetingRouter)
 app.use(serviceRouter)
-app.use(userRouter)
+
 
 
 app.listen(PORT, () => {
