@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import { getUsers, login, register } from '../services/user.service'
-
 
 export const GetUser = async (req: Request, res: Response) => {
   try {

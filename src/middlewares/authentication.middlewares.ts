@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-const authenticateToken = (req: any, res: Response, next: NextFunction) => {
+const authenticateToken = (req: Request | any, res: Response, next: NextFunction) => {
     const token = req.body.token || req.query.token || req.headers["x-access-token"] || req.headers['authorization'];
 
     if (!token) {

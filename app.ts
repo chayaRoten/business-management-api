@@ -13,10 +13,12 @@ import meetingRouter from './src/routes/meeting.route'
 import serviceRouter from './src/routes/services.route'
 import userRouter from './src/routes/user.route'
 import authenticateTokenMiddlewares  from './src/middlewares/authentication.middlewares'
+import loggerMiddlewares from './src/middlewares/logger.middleware'
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cors())
+app.use(loggerMiddlewares)
 app.use(userRouter)
 app.use(authenticateTokenMiddlewares)
 app.use(businessRouter)
