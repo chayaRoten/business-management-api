@@ -6,17 +6,17 @@ export const getMeetings = async (): Promise<string | any> => {
 }
 
 
-export const addMeeting = async (name: String, address: String, email: String, phone: Number, details: String, service: String, id: Number): Promise<string> => {
+export const addMeeting = async (name: string, address: string, email: string, phone: number, details: string, service: string, id: number): Promise<string> => {
     await MeetingModel.insertMany({ name: name, address: address, email: email, phone: phone, details: details, service: service, id: id });
     return 'Data Received!';
 };
 
-export const updateMeeting = async (name: String, address: String, email: String, phone: Number, details: String, service: String, id: Number): Promise<string> => {
+export const updateMeeting = async (name: string, address: string, email: string, phone: number, details: string, service: string, id: number): Promise<string> => {
     await MeetingModel.updateOne({ id: id }, { name: name, address: address, email: email, phone: phone, details: details, service: service });
     return 'Data Updated!';
 };
 
-export const deleteMeeting = async (id: Number): Promise<string> => {
+export const deleteMeeting = async (id: number): Promise<string> => {
     await MeetingModel.deleteOne({ id: id });
     return 'Data Deleted!';
 };

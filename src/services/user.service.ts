@@ -1,23 +1,21 @@
-import { UserModel } from '../models/user.model';
+import { IUser, UserModel } from '../models/user.model';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import dotenv from 'dotenv';
 
-export const getUser = async (): Promise<string | unknown> => {
+dotenv.config();
+
+export const getUsers = async (): Promise<string | unknown> => {
     const users = await UserModel.find().exec();
     return users
 }
 
-export const login = async (email: string, password: string, id: number, name: string): Promise<string> => {
-    const users = await UserModel.find().exec();
+export const login = async (email: string, password: string, name: string): Promise<string> => {
     try {
-        if (!(email && password && id && name)) {
-            return 'All input is required';
-        }
-        let token = ""
-        const user = users.find(async x => await bcrypt.compare(password, x.password) && x.email === email);
-        if (user) {
-            token = jwt.sign(
-                { user_id: user?.id, name, email },
+        const user = await UserModel.findOne({ email, name }).exec();
+        if (user && await bcrypt.compare(password, user.password)) {
+            const token = jwt.sign(
+                { user_id: user.id, name: user.name, email: user.email },
                 process.env.TOKEN_KEY || '',
                 {
                     expiresIn: '2h'
@@ -28,31 +26,35 @@ export const login = async (email: string, password: string, id: number, name: s
             return 'Invalid Credentials';
         }
     } catch (err) {
-        console.log(err);
-        return 'Error occurred during login';
+        throw new Error('Error occurred during login')
     }
 };
 
-export const register = async (email: string, password: string, id: number, name: string): Promise<string | undefined> => {
-    const users = await UserModel.find().exec();
+
+
+
+
+export const register = async (email: string, password: string, name: string): Promise<string | undefined> => {
     try {
-        if (!(email && password && name && id)) {
+        if (!(email && password && name)) {
             return 'All input is required';
         }
 
-        const oldUser = users.find(x => x.password === password && x.email === email);
-
+        const oldUser = await UserModel.findOne({ email }).exec();
         if (oldUser) {
             return 'User Already Exist. Please Login';
         }
+        const lastUser = await UserModel.findOne().sort({ id: -1 }).exec();
+        const newId = lastUser ? lastUser.id + 1 : 1;
         const encryptedPassword = await bcrypt.hash(password, 10);
         const user = {
             name,
-            id,
+            id: newId,
             email,
             password: encryptedPassword,
         };
 
+        await UserModel.insertMany(user);
         const token = jwt.sign(
             { user_id: user?.id, name, email },
             process.env.TOKEN_KEY || '',
@@ -60,12 +62,6 @@ export const register = async (email: string, password: string, id: number, name
                 expiresIn: '2h'
             }
         );
-        try {
-            await UserModel.insertMany(user);
-        } catch (err) {
-            console.error(err);
-            return 'Error occurred during signup';
-        }
         return token;
     } catch (err) {
         console.log(err);

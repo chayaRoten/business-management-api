@@ -5,18 +5,18 @@ export const getService = async (): Promise<string | any> => {
   return services
 }
 
-export const addService = async (serviceName: String, cost: Number): Promise<string> => {
+export const addService = async (serviceName: string, cost: number): Promise<string> => {
   await ServiceModel.insertMany({ name: serviceName, cost: cost });
   return 'Data Received!';
 };
 
 
-export const updateService = async (serviceName: String, cost: Number): Promise<string> => {
+export const updateService = async (serviceName: string, cost: number): Promise<string> => {
   await ServiceModel.updateOne({ name: serviceName }, { cost: cost });
   return 'Data Updated!';
 };
 
-export const deleteService = async (serviceName: String): Promise<string> => {
+export const deleteService = async (serviceName: string): Promise<string> => {
   await ServiceModel.deleteOne({ name: serviceName });
   return 'Data Deleted!';
 };
