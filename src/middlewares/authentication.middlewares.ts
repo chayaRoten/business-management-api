@@ -2,7 +2,12 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-const authenticateToken = (req: Request | any, res: Response, next: NextFunction) => {
+
+interface AuthRequest extends Request {
+    user?: any;
+}
+
+const authenticateToken = (req: AuthRequest , res: Response, next: NextFunction) => {
     const token = req.body.token || req.query.token || req.headers["x-access-token"] || req.headers['authorization'];
 
     if (!token) {

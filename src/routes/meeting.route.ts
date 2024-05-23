@@ -4,8 +4,8 @@ const router = express.Router();
 
 router.get('/meetings', businessController.GetMeetings)
 router.post('/meetings', businessController.AddMeeting);
-router.put('/meetings/:meetingsId', businessController.UpdateMeeting);
-router.delete('/meetings/:meetingsId', businessController.DeleteMeeting);
+router.put('/meetings/:meetingId', businessController.UpdateMeeting);
+router.delete('/meetings/:meetingId', businessController.DeleteMeeting);
 
 
 export default router;

@@ -1,25 +1,22 @@
-import mongoose, { Schema, Document, Model } from 'mongoose';
+import mongoose, { Schema, Model } from 'mongoose';
 
 
 export interface IMeeting {
-  name: string;
-  address: string;
-  email: string;
-  phone: number;
+  userId: number;
   details: string;
-  service: string;
-  id:number;
+  typeOfInquiry: string;
+  date: string;
+  time: string;
+  id: number;
 }
 
 const meetingSchema: Schema = new Schema({
-  name: String,
-  address: String,
-  email: String,
-  phone: Number,
+  userId: Number,
   details: String,
   typeOfInquiry: String,
-  service: String,
-  id:Number,
+  date: String,
+  time: String,
+  id: Number
 });
 
 const MeetingModel: Model<IMeeting> = mongoose.model<IMeeting>('meeting', meetingSchema);
