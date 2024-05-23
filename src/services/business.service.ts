@@ -1,23 +1,33 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { BusinessModel } from '../models/business.model';
 
 export const getBusiness = async (): Promise<any> => {
   try {
     const business = await BusinessModel.find().exec();
-    console.log(business);
     return business;
   } catch (error) {
-    console.error('Failed to get business:', error);
-    throw error;
+    console.error('Error getting business:', error);
+    throw new Error('Failed to get business.');
   }
 }
 
-export const addBusiness = async (businessId: number, businessName: string, businessAddress: string, businessServices: string): Promise<string> => {
-  await BusinessModel.insertMany({ id: businessId, name: businessName, address: businessAddress, services: businessServices });
-  return 'Data Received!';
+export const addBusiness = async (id: number, name: string, address: string, services: string): Promise<string> => {
+  try {
+    await BusinessModel.insertMany({ id, name, address, services });
+    return 'Data Received!';
+  } catch (error) {
+    console.error('Error adding business:', error);
+    throw new Error('Failed to add business.');
+  }
 };
 
 
-export const updateBusiness = async (businessId: number, businessName: string, businessAddress: string, businessServices: string): Promise<string> => {
-  await BusinessModel.updateOne({ id: businessId }, { name: businessName, address: businessAddress, services: businessServices });
-  return 'Data Updated!';
+export const updateBusiness = async (id: number, name: string, address: string, services: string): Promise<string> => {
+  try {
+    await BusinessModel.updateOne({ id }, { name, address, services });
+    return 'Data Updated!';
+  } catch (error) {
+    console.error('Error updating business:', error);
+    throw new Error('Failed to update business.');
+  }
 };
