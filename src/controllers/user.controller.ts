@@ -2,6 +2,38 @@
 import { Request, Response } from 'express';
 import { getUsers, login, register } from '../services/user.service'
 
+
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     summary: Get a user
+ *     responses:
+ *       200:
+ *         description: A single user object
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                   example: 1
+ *                 name:
+ *                   type: string
+ *                   example: John Doe
+ *                 email:
+ *                   type: string
+ *                   example: john@example.com
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: error in fetch user
+ */
+
 export const GetUser = async (req: Request, res: Response) => {
   try {
     const user = await getUsers()

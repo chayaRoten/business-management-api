@@ -1,5 +1,6 @@
 import { MeetingModel } from '../models/meeting.model';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getMeetings = async (): Promise<string | any> => {
     const meetings = await MeetingModel.find().exec();
     return meetings
