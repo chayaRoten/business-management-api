@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get('/services', serviceController.GetServices)
 router.post('/services', serviceController.AddService);
-router.put('/services/:serviceId', serviceController.UpdateService);
-router.delete('/services/:serviceId', serviceController.DeleteService);
+router.put('/services/:serviceName', serviceController.UpdateService);
+router.delete('/services/:serviceName', serviceController.DeleteService);
 
 export default router;
