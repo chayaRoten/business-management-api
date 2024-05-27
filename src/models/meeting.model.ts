@@ -4,19 +4,21 @@ import mongoose, { Schema, Model } from 'mongoose';
 export interface IMeeting {
   userId: number;
   details: string;
-  typeOfInquiry: string;
+  serviceId: number;
   date: string;
-  time: string;
+  startTime: string;
   id: number;
+  duration:number;
 }
 
 const meetingSchema: Schema = new Schema({
   userId: Number,
   details: String,
-  typeOfInquiry: String,
+  serviceId: Number,
   date: String,
-  time: String,
-  id: Number
+  startTime: String,
+  id: Number,
+  duration:Number
 });
 
 const MeetingModel: Model<IMeeting> = mongoose.model<IMeeting>('meeting', meetingSchema);

@@ -32,8 +32,9 @@ const router = express.Router();
  *               type: string
  *               example: error in fetch user
  */
-router.get('/users', usersController.GetUser)
-router.post('/login',  usersController.loginUser)
-router.post('/signUp', usersController.registerUser)
+router.post('/signin',  usersController.signIn)
+router.post('/signup', usersController.signUp)
+router.get('/users', usersController.Get)
+
 
 export default router;

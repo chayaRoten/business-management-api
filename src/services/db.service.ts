@@ -1,9 +1,7 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
-const url = process.env.DATABASE_URL;
-
-// const DATABASE_URL = 'mongodb://localhost:27017/Attorney'
+const url = process.env.DB_CONNECTION;
 
 mongoose.set('strictQuery', false);
 

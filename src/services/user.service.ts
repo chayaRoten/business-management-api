@@ -10,18 +10,18 @@ export const getUsers = async (): Promise<string | unknown> => {
     return users
 }
 
-export const login = async (email: string, password: string, name: string): Promise<string> => {
+export const signin = async (email: string, password: string, username: string): Promise<string> => {
     try {
-        const user = await UserModel.findOne({ email, name }).exec();
+        const user = await UserModel.findOne({ email, username }).exec();
         if (user && await bcrypt.compare(password, user.password)) {
             const token = jwt.sign(
-                { user_id: user.id, name: user.name, email: user.email },
+                { user_id: user.id, username, email: user.email },
                 process.env.TOKEN_KEY || '',
                 {
                     expiresIn: '2h'
                 }
             );
-            return token;
+            return `Bearer ${token}`;
         } else {
             return 'Invalid Credentials';
         }
@@ -34,9 +34,9 @@ export const login = async (email: string, password: string, name: string): Prom
 
 
 
-export const register = async (email: string, password: string, name: string): Promise<string | undefined> => {
-    try {
-        if (!(email && password && name)) {
+export const signup = async (email: string, password: string, username: string): Promise<string | undefined> => {
+    try {        
+        if (!(email && password && username)) {
             return 'All input is required';
         }
 
@@ -48,21 +48,22 @@ export const register = async (email: string, password: string, name: string): P
         const newId = lastUser ? lastUser.id + 1 : 1;
         const encryptedPassword = await bcrypt.hash(password, 10);
         const user = {
-            name,
+            username,
             id: newId,
             email,
             password: encryptedPassword,
+            role: 'user'
         };
 
         await UserModel.insertMany(user);
         const token = jwt.sign(
-            { user_id: user?.id, name, email },
+            { user_id: user?.id, username, email },
             process.env.TOKEN_KEY || '',
             {
                 expiresIn: '2h'
             }
         );
-        return token;
+        return `Bearer ${token}`;
     } catch (err) {
         console.log(err);
         return 'Error occurred during signup';

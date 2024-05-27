@@ -1,6 +1,6 @@
 // import { expect, test } from 'jest';
-import { getMeetings, addMeeting, updateMeeting, deleteMeeting } from '../../src/services/meeting.service';
-import { MeetingModel } from '../../src/models/meeting.model';
+import {  addMeeting} from '../../src/services/meeting.service';
+// import { MeetingModel } from '../../src/models/meeting.model';
 
 // Mocking the MeetingModel
 // jest.mock('../../src/models/meeting.model');
@@ -25,7 +25,7 @@ import { MeetingModel } from '../../src/models/meeting.model';
 
   describe('addMeeting', () => {
     test('addCustomer should add a new customer with valid parameters', () => {
-        expect(addMeeting('John Doe','Hafa', 'john.doe@example.com', 544444444,'example','service1', 121212121212)).toEqual({ name: 'John Doe', address: 'Hafa', email: 'john.doe@example.com' , phone: 544444444, details:'example',service:'service1', id:121212121212});
+        expect(addMeeting(4785, 'aaaa', "ff",'10-10-2020','service1')).toEqual({ name: 'John Doe', address: 'Hafa', email: 'john.doe@example.com' , phone: 544444444, details:'example',service:'service1', id:121212121212});
     //   });
     // it('should return "Data Received!" when a meeting is added', async () => {
     //   (MeetingModel.insertMany as jest.Mock).mockResolvedValue({});

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
-import { getUsers, login, register } from '../services/user.service'
+import { getUsers, signup, signin } from '../services/user.service'
 
 
 /**
@@ -34,7 +34,7 @@ import { getUsers, login, register } from '../services/user.service'
  *               example: error in fetch user
  */
 
-export const GetUser = async (req: Request, res: Response) => {
+export const Get = async (req: Request, res: Response) => {
   try {
     const user = await getUsers()
     res.send(user)
@@ -46,10 +46,10 @@ export const GetUser = async (req: Request, res: Response) => {
 }
 
 
-export const loginUser = async (req: Request, res: Response): Promise<void> => {
+export const signIn = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { email, password, name } = req.body;
-    const result = await login(email, password, name);
+    const { email, password, username } = req.body;
+    const result = await signin(email, password, username);
     res.send(result);
   } catch (error: any) {
     console.log(`error in log in ${error.message}`);
@@ -57,10 +57,10 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export const registerUser = async (req: Request, res: Response): Promise<void> => {
+export const signUp = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { email, password, name } = req.body;
-    const result = await register(email, password, name);
+    const { email, password, username } = req.body;
+    const result = await signup(email, password, username);
     res.send(result);
   } catch (error: any) {
     console.log(`error in sign in ${error.message}`);
