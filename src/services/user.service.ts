@@ -15,7 +15,7 @@ export const signin = async (email: string, password: string, username: string):
         const user = await UserModel.findOne({ email, username }).exec();
         if (user && await bcrypt.compare(password, user.password)) {
             const token = jwt.sign(
-                { user_id: user.id, username, email: user.email },
+                { user_id: user.id, username, email: user.email, role: user.role },
                 process.env.TOKEN_KEY || '',
                 {
                     expiresIn: '2h'
@@ -35,7 +35,7 @@ export const signin = async (email: string, password: string, username: string):
 
 
 export const signup = async (email: string, password: string, username: string): Promise<string | undefined> => {
-    try {        
+    try {
         if (!(email && password && username)) {
             return 'All input is required';
         }
@@ -57,7 +57,7 @@ export const signup = async (email: string, password: string, username: string):
 
         await UserModel.insertMany(user);
         const token = jwt.sign(
-            { user_id: user?.id, username, email },
+            { user_id: user?.id, username, email, role: user?.role },
             process.env.TOKEN_KEY || '',
             {
                 expiresIn: '2h'

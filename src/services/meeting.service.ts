@@ -23,7 +23,7 @@ export const getMeeting = async (id:number): Promise<any> => {
 
 
 
-export const addMeeting = async (userId: number, details: string, serviceId: string, date: string, startTime: string, duration:number): Promise<string> => {
+export const addMeeting = async (userId: number, details: string, serviceId: number, date: string, startTime: string, duration:number): Promise<string> => {
     try {
         const existingMeeting = await MeetingModel.findOne({ date, startTime });
         if (existingMeeting) {
@@ -39,7 +39,7 @@ export const addMeeting = async (userId: number, details: string, serviceId: str
     }
 };
 
-export const updateMeeting = async (userId: number, details: string, serviceId: string, date: string, startTime: string, id: number , duration:number): Promise<string> => {
+export const updateMeeting = async (userId: number, details: string, serviceId: number, date: string, startTime: string, id: number , duration:number): Promise<string> => {
     try {
         const existingMeeting = await MeetingModel.findOne({ date, startTime });
         if (existingMeeting) {

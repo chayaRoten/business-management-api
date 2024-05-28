@@ -25,7 +25,7 @@ Date: ${new Date().toISOString()}
 Status: ${res.statusCode}
 Duration: ${duration}ms
 User: ${req.user ? req.user.email : 'Guest'}
-
+Role: ${req.user ? req.user.role : 'Guest'}
 `;
 
         logger.info(logMessage);
