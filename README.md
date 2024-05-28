@@ -9,8 +9,7 @@
   - [Business Routes](#business-routes)
   - [Service Routes](#service-routes)
   - [Meeting Routes](#meeting-routes)
-- [Authentication & Authorization](#authentication--authorization)
-- [Error Handling](#error-handling)
+
 
 ## About <a name = "about"></a>
 
@@ -53,20 +52,20 @@ Response: JWT Token
 
 | Parameter             | Description                  |
 | :----------------     | :-------------------------   |
-| `name`            | User's username              |
+| `username`            | User's username              |
 | `password`            | User's password              |
 | `email`                | User's email      |
 
 #### Sign In  
 
 ```http
-POST /user/login
+POST /user/signin
 ```  
 Response: JWT Token
 
 | Parameter             | Description                  |
 | :----------------     | :-------------------------   |
-| `name`            | User's username              |
+| `username`            | User's username              |
 | `password`            | User's password              |
 | `email`                | User's email      |
 
@@ -109,7 +108,7 @@ Response: Business Object
 #### Create Service
 
 ```http
-POST /service
+POST /services
 ``` 
 Response: Service Object
 
@@ -122,7 +121,7 @@ Response: Service Object
 #### Update Service
 
 ```http
-PUT /service/:name
+PUT /service/:id
 ``` 
 Response: Service Object
 
@@ -153,19 +152,19 @@ Response: Service Object
 #### Delete Service
 
 ```http
-DELETE /service/:name
+DELETE /service/:id
 ``` 
 Response: Success message
 
 | Parameter             | Description                  |
 | :----------------     | :-------------------------   |
-| `name`                  | Service name                   |
+| `id`                  | Service ID                   |
 
 ### Meeting Routes
 #### Create Meeting
 
 ```http
-POST /meeting
+POST /meetings
 ``` 
 Response: Meeting Object
 
@@ -175,6 +174,7 @@ Response: Meeting Object
 | `duration`            | Meeting duration (minutes)   |
 | `details`             | Meeting details              |
 | `serviceId`           | Associated service ID        |
+| `date`             | Meeting date              |
 
 #### Update Meeting
 
@@ -189,6 +189,7 @@ Response: Meeting Object
 | `startTime`           | Updated meeting start time   |
 | `duration`            | Updated meeting duration     |
 | `details`             | Updated meeting details      |
+| `date`             | Meeting date              |
 
 #### Get Meeting
 
@@ -212,54 +213,10 @@ Response: Success message
 | :----------------     | :-------------------------   |
 | `id`                  | Meeting ID                   |
 
-## Authentication & Authorization <a name = "authentication--authorization"></a>
 
-All routes except user signup and signin require a valid JWT token. Use the token in the `Authorization` header for authenticated requests.
 
-Example of Authorization header:
-```
-Authorization: Bearer <your_jwt_token>
-```
 
-Some routes are restricted to admin users only. Ensure proper role checks in the middleware.
 
-## Error Handling <a name = "error-handling"></a>
-
-All errors are caught and returned in a structured format.
-
-- Unauthorized access returns a `401` status code.
-- Conflicts such as overlapping meetings return a `400` status code.
-
-## Environment Variables <a name = "environment-variables"></a>
-
-Create a `.env` file in the root directory and add the following environment variables:
-
-```
-DB_CONNECTION=<your_database_connection_string>
-JWT_SECRET=<your_jwt_secret>
-```
-
-Example:
-```
-DB_CONNECTION=mongodb://localhost:27017/mydatabase
-JWT_SECRET=your_secret_key
-```
-
-## Linting <a name = "linting"></a>
-
-To maintain code quality, this project uses ESLint. You can run the linter using:
-
-```
-npm run lint
-```
-
-## Swagger Documentation <a name = "swagger-documentation"></a>
-
-API documentation is available via Swagger. After running the server, navigate to:
-
-```
-http://localhost:3000/api-docs
-```
 
 ## Running Tests <a name = "running-tests"></a>
 
@@ -284,12 +241,3 @@ For any questions or support, please contact:
 - **Name:** Chaya Roten
 - **Email:** ch49ro@gmail.com
 
-## Acknowledgements <a name = "acknowledgements"></a>
-
-
----
-
-By following the instructions in this README, you should be able to set up and run the Business Management API project. If you encounter any issues or have any questions, please feel free to reach out.
-```
-
-תעדכן את החלקים הרלוונטיים כמו שם, אימייל, וכתובת ריפו של GitHub בהתאם לפרויקט שלך. אם יש לך שאלות נוספות, אני כאן לעזור!
