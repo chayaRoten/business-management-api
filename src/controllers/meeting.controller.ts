@@ -6,6 +6,18 @@ interface AuthRequest extends Request {
   user?: any;
 }
 
+/**
+ * @swagger
+ * /meetings:
+ *   get:
+ *     summary: Get all meetings for a user
+ *     tags: [Meetings]
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved meetings
+ *       500:
+ *         description: Failed to retrieve meetings
+ */
 export const GetMeetings = async (req: AuthRequest, res: Response) => {
   try {
     const user_id = req.user?.user_id;
@@ -17,6 +29,26 @@ export const GetMeetings = async (req: AuthRequest, res: Response) => {
   }
 }
 
+
+/**
+ * @swagger
+ * /meeting/{id}:
+ *   get:
+ *     summary: Get a meeting by ID
+ *     tags: [Meetings]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Meeting ID
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved meeting
+ *       500:
+ *         description: Failed to retrieve meeting
+ */
 export const GetMeeting = async (req: AuthRequest, res: Response) => {
   try {
     const id = Number(req.params.id);
@@ -29,6 +61,43 @@ export const GetMeeting = async (req: AuthRequest, res: Response) => {
 }
 
 
+
+/**
+ * @swagger
+ * /meetings:
+ *   post:
+ *     summary: Add a new meeting
+ *     tags: [Meetings]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - details
+ *               - serviceId
+ *               - date
+ *               - startTime
+ *               - duration
+ *             properties:
+ *               details:
+ *                 type: string
+ *               serviceId:
+ *                 type: integer
+ *               date:
+ *                 type: string
+ *                 format: date
+ *               startTime:
+ *                 type: string
+ *               duration:
+ *                 type: integer
+ *     responses:
+ *       201:
+ *         description: Successfully added meeting
+ *       500:
+ *         description: Failed to add meeting
+ */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const AddMeeting = async (req: AuthRequest | any, res: Response) => {
   try {
@@ -42,6 +111,53 @@ export const AddMeeting = async (req: AuthRequest | any, res: Response) => {
   }
 };
 
+
+
+/**
+ * @swagger
+ * /meetings/{id}:
+ *   put:
+ *     summary: Update an existing meeting
+ *     tags: [Meetings]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Meeting ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - details
+ *               - serviceId
+ *               - date
+ *               - startTime
+ *               - duration
+ *             properties:
+ *               details:
+ *                 type: string
+ *               serviceId:
+ *                 type: integer
+ *               date:
+ *                 type: string
+ *                 format: date
+ *               startTime:
+ *                 type: string
+ *               duration:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Successfully updated meeting
+ *       400:
+ *         description: All fields are required
+ *       500:
+ *         description: Failed to update meeting
+ */
 export const UpdateMeeting = async (req: AuthRequest, res: Response) => {
   try {
     const id = Number(req.params.id);
@@ -59,6 +175,31 @@ export const UpdateMeeting = async (req: AuthRequest, res: Response) => {
   }
 };
 
+
+
+/**
+ * @swagger
+ * /meetings/{id}:
+ *   delete:
+ *     summary: Delete a meeting by ID
+ *     tags: [Meetings]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Meeting ID
+ *     responses:
+ *       200:
+ *         description: Successfully deleted meeting
+ *       400:
+ *         description: Invalid meeting ID
+ *       404:
+ *         description: Meeting not found
+ *       500:
+ *         description: Failed to delete meeting
+ */
 export const DeleteMeeting = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);

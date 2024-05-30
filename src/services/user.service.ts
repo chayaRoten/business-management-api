@@ -21,7 +21,7 @@ export const signin = async (email: string, password: string, username: string):
                     expiresIn: '2h'
                 }
             );
-            return `Bearer ${token}`;
+            return `${token}`;
         } else {
             return 'Invalid Credentials';
         }
@@ -63,7 +63,7 @@ export const signup = async (email: string, password: string, username: string):
                 expiresIn: '2h'
             }
         );
-        return `Bearer ${token}`;
+        return `${token}`;
     } catch (err) {
         console.log(err);
         return 'Error occurred during signup';

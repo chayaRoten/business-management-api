@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ServiceModel } from '../models/services.model';
-import {checkAdminRole}  from '../middlewares/authentication.middlewares'
 
 export const getServices = async (): Promise<string | any> => {
   try {

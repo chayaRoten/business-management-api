@@ -1,6 +1,29 @@
 import { Request, Response } from 'express';
 import { getServices, getService, addService, updateService, deleteService } from '../services/services.service'
 
+/**
+ * @swagger
+ * /services:
+ *   get:
+ *     summary: Get all services
+ *     tags: [Services]
+ *     responses:
+ *       200:
+ *         description: List of services
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   name:
+ *                     type: string
+ *                   cost:
+ *                     type: number
+ */
 export const GetServices = async (req: Request, res: Response) => {
   try {
     const services = await getServices();
@@ -11,6 +34,35 @@ export const GetServices = async (req: Request, res: Response) => {
   }
 }
 
+
+/**
+ * @swagger
+ * /service/{id}:
+ *   get:
+ *     summary: Get a service by ID
+ *     tags: [Services]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The service ID
+ *     responses:
+ *       200:
+ *         description: A service
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 name:
+ *                   type: string
+ *                 cost:
+ *                   type: number
+ */
 export const GetService = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
@@ -22,6 +74,32 @@ export const GetService = async (req: Request, res: Response) => {
   }
 }
 
+
+
+/**
+ * @swagger
+ * /services:
+ *   post:
+ *     summary: Add a new service
+ *     tags: [Services]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - cost
+ *             properties:
+ *               name:
+ *                 type: string
+ *               cost:
+ *                 type: number
+ *     responses:
+ *       201:
+ *         description: The service was successfully created
+ */
 export const AddService = async (req: Request, res: Response) => {
   try {
     const { name, cost } = req.body;
@@ -37,6 +115,39 @@ export const AddService = async (req: Request, res: Response) => {
   }
 };
 
+
+
+/**
+ * @swagger
+ * /services/{id}:
+ *   put:
+ *     summary: Update an existing service
+ *     tags: [Services]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The service ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - cost
+ *             properties:
+ *               name:
+ *                 type: string
+ *               cost:
+ *                 type: number
+ *     responses:
+ *       200:
+ *         description: The service was successfully updated
+ */
 export const UpdateService = async (req: Request, res: Response) => {
   try {
     const id =  Number(req.params.id);
@@ -53,6 +164,25 @@ export const UpdateService = async (req: Request, res: Response) => {
   }
 };
 
+
+
+/**
+ * @swagger
+ * /services/{id}:
+ *   delete:
+ *     summary: Delete a service
+ *     tags: [Services]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The service ID
+ *     responses:
+ *       200:
+ *         description: The service was successfully deleted
+ */
 export const DeleteService = async (req: Request, res: Response) => {
   try {
     const id  = Number(req.params.id);

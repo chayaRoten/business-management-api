@@ -1,28 +1,41 @@
 import { Express } from 'express';
 import swaggerUi from 'swagger-ui-express';
-import swaggerJSDoc, { Options } from 'swagger-jsdoc';
+import swaggerJsdoc from 'swagger-jsdoc';
 
-const options: Options = {
-  definition: {
+const swaggerOptions = {
+  swaggerDefinition: {
     openapi: '3.0.0',
     info: {
-      title: 'Your Project API',
+      title: 'myBusiness API',
       version: '1.0.0',
-      description: 'Documentation for Your Project API',
+      description: 'API documentation for myBusiness',
     },
-    servers: [
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+    security: [
       {
-        url: 'http://localhost:3000',
+        bearerAuth: [],
       },
     ],
   },
   apis: ['./src/routes/*.ts', './src/controllers/*.ts'],
 };
+const swaggerDocs = swaggerJsdoc(swaggerOptions);
 
-const swaggerSpec = swaggerJSDoc(options);
 
 const setupSwagger = (app: Express): void => {
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 };
 
 export default setupSwagger;
+
+
+
+
