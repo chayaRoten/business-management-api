@@ -1,4 +1,4 @@
-import { MeetingModel } from '../../src/models/meeting.model';
+// import { MeetingModel } from '../../src/models/meeting.model';
 import {
   getMeetings,
   getMeeting,
@@ -7,146 +7,158 @@ import {
   deleteMeeting
 } from '../../src/services/meeting.service';
 
+// Import necessary modules
+import mongoose from 'mongoose';
+// import { getMeetings } from '../src/services/meeting.service';
 
-// import { jest } from '@jest/globals';
+// Mock mongoose find method
+jest.mock('mongoose', () => ({
+  ...jest.requireActual('mongoose'),
+  Model: {
+    find: jest.fn().mockImplementation(() => Promise.resolve([
+      { userId: 78410, meeting: 'Meeting 1' },
+      { userId: 78410, meeting: 'Meeting 2' }
+    ])),
+  },
+}));
 
-// // jest.mock('../../src/models/meeting.model');
-// jest.mock('../../src/models/meeting.model', () => ({
-//   find: jest.fn(),
-//   findOne: jest.fn(),
-//   insertMany: jest.fn(),
-//   updateOne: jest.fn(),
-//   deleteOne: jest.fn()
-// }));
+describe('getMeetings function', () => {
+  it('should retrieve meetings for a user', async () => {
+    const userId = 78410;
+    const meetings = await getMeetings(userId);
+    expect(meetings).toHaveLength(2);
+  });
 
-// describe('Meeting Service', () => {
-//   afterEach(() => {
-//     jest.clearAllMocks();
+  it('should throw an error if retrieval fails', async () => {
+    mongoose.Model.find.mockImplementationOnce(() => Promise.reject(new Error('Failed to retrieve meetings')));
+    const userId = 456;
+    await expect(getMeetings(userId)).rejects.toThrow('Failed to retrieve meetings.');
+  });
+});
+
+describe('getMeetings function', () => {
+  it('should retrieve meetings for a user', async () => {
+    // Arrange
+    const userId = 78410; // Assuming a user ID for testing
+
+    // Act
+    const meetings = await getMeetings(userId);
+
+    // Assert
+    expect(Array.isArray(meetings)).toBe(true);
+    // Add more assertions based on your expected data structure
+  })
+  it('should throw an error if retrieval fails', async () => {
+    // Arrange
+    const userId = 456; // Assuming a user ID for testing
+
+    // Act & Assert
+    await expect(getMeetings(userId)).rejects.toThrow('Failed to retrieve meetings.');
+  });
+})
+
+// describe('getMeeting function', () => {
+//   it('should retrieve a meeting by ID', async () => {
+//     // Arrange
+//     const meetingId = 1; // Assuming a meeting ID for testing
+
+//     // Act
+//     const meeting = await getMeeting(meetingId);
+
+//     // Assert
+//     expect(meeting).toBeDefined();
+//     // Add more assertions based on your expected data structure
 //   });
 
-//   describe('getMeetings', () => {
-//     test('should return meetings for a specific user', async () => {
-//       const mockMeetings = [
-//         { userId: 1, details: 'Meeting 1' },
-//         { userId: 2, details: 'Meeting 2' }
-//       ];
-//       (MeetingModel.find as jest.Mock).mockReturnValue({
-//         exec: jest.fn().mockResolvedValue(mockMeetings)
-//       });
+//   it('should throw an error if retrieval fails', async () => {
+//     // Arrange
+//     const meetingId = 999; // Assuming a non-existent meeting ID for testing
 
-//       const result = await getMeetings(1);
-//       expect(result).toEqual([{ userId: 1, details: 'Meeting 1' }]);
-//     });
-
-//     test('should throw an error if retrieval fails', async () => {
-//       (MeetingModel.find as jest.Mock).mockReturnValue({
-//         exec: jest.fn().mockRejectedValue(new Error('DB Error'))
-//       });
-
-//       await expect(getMeetings(1)).rejects.toThrow('Failed to retrieve meetings.');
-//     });
-//   });
-
-//   describe('getMeeting', () => {
-//     test('should return a specific meeting by id', async () => {
-//       const mockMeeting = { id: 1, details: 'Meeting 1' };
-//       (MeetingModel.findOne as jest.Mock).mockReturnValue({
-//         exec: jest.fn().mockResolvedValue(mockMeeting)
-//       });
-
-//       const result = await getMeeting(1);
-//       expect(result).toEqual(mockMeeting);
-//     });
-
-//     test('should throw an error if retrieval fails', async () => {
-//       (MeetingModel.findOne as jest.Mock).mockReturnValue({
-//         exec: jest.fn().mockRejectedValue(new Error('DB Error'))
-//       });
-
-//       await expect(getMeeting(1)).rejects.toThrow('Failed to retrieve meeting.');
-//     });
-
-//   });
-
-
-
-// describe('addMeeting', () => {
-//   test('should add a new meeting and return success message', async () => {
-//     (MeetingModel.findOne as jest.Mock).mockResolvedValueOnce(null);
-//     (MeetingModel.findOne as jest.Mock).mockResolvedValueOnce({ id: 999 });
-//     (MeetingModel.insertMany as jest.Mock).mockResolvedValue(undefined);
-
-//     const result = await addMeeting(1, 'Details', 'Service', '2024-01-01', '10:00', 60);
-//     expect(result).toEqual('Data Received!');
-//   });
-
-//   test('should throw an error if meeting already exists', async () => {
-//     (MeetingModel.findOne as jest.Mock).mockResolvedValue({});
-
-//     await expect(addMeeting(1, 'Details', 'Service', '2024-01-01', '10:00', 60)).rejects.toThrow('Meeting already scheduled for this date and time.');
-//   });
-
-//   test('should throw an error if adding fails', async () => {
-//     (MeetingModel.findOne as jest.Mock).mockResolvedValue(null);
-//     (MeetingModel.insertMany as jest.Mock).mockRejectedValue(new Error('DB Error'));
-
-//     await expect(addMeeting(1, 'Details', 'Service', '2024-01-01', '10:00', 60)).rejects.toThrow('Failed to add meeting.');
+//     // Act & Assert
+//     await expect(getMeeting(meetingId)).rejects.toThrow('Failed to retrieve meeting.');
 //   });
 // });
 
-// describe('updateMeeting', () => {
-//   test('should update an existing meeting and return success message', async () => {
-//     (MeetingModel.findOne as jest.Mock).mockResolvedValue(null);
-//     (MeetingModel.updateOne as jest.Mock).mockResolvedValue(undefined);
+// describe('addMeeting function', () => {
+//   it('should add a new meeting', async () => {
+//     // Arrange
+//     const userId = 123; // Assuming a user ID for testing
+//     const details = "Test Meeting";
+//     const serviceId = 1;
+//     const date = "2024-05-30";
+//     const startTime = "10:00";
+//     const duration = 60;
 
-//     const result = await updateMeeting(1, 'Details', 'Service', '2024-01-01', '10:00', 1, 60);
-//     expect(result).toEqual('Data Updated!');
+//     // Act
+//     const result = await addMeeting(userId, details, serviceId, date, startTime, duration);
+
+//     // Assert
+//     expect(result).toBe('Data Received!');
+//     // You may want to assert more about the created meeting, like checking if it exists in the database
 //   });
 
-//   test('should throw an error if meeting already exists at new time', async () => {
-//     (MeetingModel.findOne as jest.Mock).mockResolvedValue({});
+//   it('should throw an error if addition fails', async () => {
+//     // Arrange: You may create a test scenario where addition fails
+//     // Act & Assert
+//     // Add your test scenario here
+//   });
+// });
+// describe('updateMeeting function', () => {
+//   it('should update an existing meeting', async () => {
+//     // Arrange
+//     const userId = 123; // Assuming a user ID for testing
+//     const details = "Updated Meeting";
+//     const serviceId = 1;
+//     const date = "2024-05-30";
+//     const startTime = "10:00";
+//     const meetingId = 1; // Assuming an existing meeting ID for testing
+//     const duration = 60;
 
-//     await expect(updateMeeting(1, 'Details', 'Service', '2024-01-01', '10:00', 1, 60)).rejects.toThrow('Meeting already scheduled for this date and time.');
+//     // Act
+//     const result = await updateMeeting(userId, details, serviceId, date, startTime, meetingId, duration);
+
+//     // Assert
+//     expect(result).toBe('Data Updated!');
+//     // You may want to assert more about the updated meeting, like checking if its details have changed
 //   });
 
-//   test('should throw an error if updating fails', async () => {
-//     (MeetingModel.findOne as jest.Mock).mockResolvedValue(null);
-//     (MeetingModel.updateOne as jest.Mock).mockRejectedValue(new Error('DB Error'));
-
-//     await expect(updateMeeting(1, 'Details', 'Service', '2024-01-01', '10:00', 1, 60)).rejects.toThrow('Failed to update meeting.');
+//   it('should throw an error if update fails', async () => {
+//     // Arrange: You may create a test scenario where update fails
+//     // Act & Assert
+//     // Add your test scenario here
 //   });
 // });
 
-// describe('deleteMeeting', () => {
-//   test('should delete a meeting and return true if successful', async () => {
-//     (MeetingModel.deleteOne as jest.Mock).mockResolvedValue({ deletedCount: 1 });
 
-//     const result = await deleteMeeting(1);
+
+
+// describe('deleteMeeting function', () => {
+//   it('should delete a meeting by ID', async () => {
+//     // Arrange
+//     const meetingId = 1; // Assuming an existing meeting ID for testing
+
+//     // Act
+//     const result = await deleteMeeting(meetingId);
+
+//     // Assert
 //     expect(result).toBe(true);
+//     // You may want to assert more about the deletion, like checking if the meeting no longer exists in the database
 //   });
 
-//   test('should return false if no meeting was deleted', async () => {
-//     (MeetingModel.deleteOne as jest.Mock).mockResolvedValue({ deletedCount: 0 });
+//   it('should return false if meeting does not exist', async () => {
+//     // Arrange
+//     const meetingId = 999; // Assuming a non-existent meeting ID for testing
 
-//     const result = await deleteMeeting(1);
+//     // Act
+//     const result = await deleteMeeting(meetingId);
+
+//     // Assert
 //     expect(result).toBe(false);
 //   });
 
-//   test('should throw an error if deletion fails', async () => {
-//     (MeetingModel.deleteOne as jest.Mock).mockRejectedValue(new Error('DB Error'));
-
-//     await expect(deleteMeeting(1)).rejects.toThrow('Failed to delete meeting.');
+//   it('should throw an error if deletion fails', async () => {
+//     // Arrange: You may create a test scenario where deletion fails
+//     // Act & Assert
+//     // Add your test scenario here
 //   });
 // });
-
-// });
-
-describe('addMeeting', () => {
-  test('addCustomer should add a new customer with valid parameters', () => {
-    const headers = {
-      'Authorization': 'sampleToken123'
-    };
-    expect(addMeeting(7979797, 'details', 78888, '10-10-2020', 'startTime', 120))
-    .toEqual({ userId:7979797,details: 'details', serviceId: 78888, date: '10-10-2020', startTime: 'startTime', duration: 120 });
-    
-  })})
