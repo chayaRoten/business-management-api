@@ -13,20 +13,25 @@ export const getUsers = async (): Promise<string | unknown> => {
 export const signin = async (email: string, password: string, username: string): Promise<string> => {
     try {
         const user = await UserModel.findOne({ email, username }).exec();
-        if (user && await bcrypt.compare(password, user.password)) {
-            const token = jwt.sign(
-                { user_id: user.id, username, email: user.email, role: user.role },
-                process.env.TOKEN_KEY || '',
-                {
-                    expiresIn: '2h'
-                }
-            );
-            return `${token}`;
-        } else {
-            return 'Invalid Credentials';
+        if (!user) {
+            return 'User not found';
         }
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return 'Invalid password';
+        }
+
+        const token = jwt.sign(
+            { user_id: user.id, username: user.username, email: user.email, role: user.role },
+            process.env.TOKEN_KEY || '',
+            {
+                expiresIn: '2h'
+            }
+        );
+        return token;
     } catch (err) {
-        throw new Error('Error occurred during login')
+        console.error('Error occurred during login:', err);
+        throw new Error('Error occurred during login');
     }
 };
 
@@ -40,14 +45,14 @@ export const signup = async (email: string, password: string, username: string):
             return 'All input is required';
         }
 
-        const oldUser = await UserModel.findOne({ email }).exec();
-        if (oldUser) {
+        const existingUser = await UserModel.findOne({ email, username }).exec();
+        if (existingUser) {
             return 'User Already Exist. Please Login';
         }
         const lastUser = await UserModel.findOne().sort({ id: -1 }).exec();
         const newId = lastUser ? lastUser.id + 1 : 1;
         const encryptedPassword = await bcrypt.hash(password, 10);
-        const user = {
+        const newUser = {
             username,
             id: newId,
             email,
@@ -55,17 +60,18 @@ export const signup = async (email: string, password: string, username: string):
             role: 'user'
         };
 
-        await UserModel.insertMany(user);
+        await UserModel.insertMany(newUser);
         const token = jwt.sign(
-            { user_id: user?.id, username, email, role: user?.role },
+            { user_id: newUser?.id, username, email, role: newUser?.role },
             process.env.TOKEN_KEY || '',
             {
                 expiresIn: '2h'
             }
         );
-        return `${token}`;
+        return token;
     } catch (err) {
         console.log(err);
+        console.error('Error occurred during signup:', err);
         return 'Error occurred during signup';
     }
 };

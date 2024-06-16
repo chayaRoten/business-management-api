@@ -10,16 +10,19 @@ interface AuthRequest extends Request {
 const authenticateToken = (req: AuthRequest, res: Response, next: NextFunction) => {
 
     const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-    if (!token) return res.sendStatus(401);
+    // const token = authHeader && authHeader.split(' ')[1];
+    const token = authHeader && authHeader.startsWith('Bearer ') ? authHeader.split(' ')[1] : null;
+    if (!token) {
+        return res.sendStatus(401);
+    }
 
     try {
         const decoded = jwt.verify(token, process.env.TOKEN_KEY || '')
         req.user = decoded;
+        next();
     } catch (err) {
         return res.status(401).send("Invalid Token");
     }
-    return next();
 }
 
 
