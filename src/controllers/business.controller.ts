@@ -25,6 +25,7 @@ export const GetBusiness = async (req: Request, res: Response) => {
 }
 
 
+
 /**
  * @swagger
  * /business:
@@ -41,7 +42,9 @@ export const GetBusiness = async (req: Request, res: Response) => {
  *               - id
  *               - name
  *               - address
- *               - service
+ *               - about
+ *               - phone
+ *               - email
  *             properties:
  *               id:
  *                 type: integer
@@ -49,7 +52,11 @@ export const GetBusiness = async (req: Request, res: Response) => {
  *                 type: string
  *               address:
  *                 type: string
- *               service:
+ *               about:
+ *                 type: string
+ *               phone:
+ *                 type: string
+ *               email:
  *                 type: string
  *     responses:
  *       201:
@@ -59,8 +66,8 @@ export const GetBusiness = async (req: Request, res: Response) => {
  */
 export const AddBusiness = async (req: Request, res: Response) => {
   try {
-    const { id, name, address, service } = req.body;
-    const newBusines = await addBusiness(id, name, address, service);
+    const { id, name, address, about, phone, email } = req.body;
+    const newBusines = await addBusiness(id, name, address, about, phone ,email);
     res.send(newBusines);
   } catch (error) {
     console.error('Failed to add business:', error);
@@ -86,7 +93,9 @@ export const AddBusiness = async (req: Request, res: Response) => {
  *               - id
  *               - name
  *               - address
- *               - service
+ *               - about
+ *               - phone
+ *               - email
  *             properties:
  *               id:
  *                 type: integer
@@ -94,7 +103,11 @@ export const AddBusiness = async (req: Request, res: Response) => {
  *                 type: string
  *               address:
  *                 type: string
- *               service:
+ *               about:
+ *                 type: string
+ *               phone:
+ *                 type: string
+ *               email:
  *                 type: string
  *     responses:
  *       200:
@@ -102,10 +115,10 @@ export const AddBusiness = async (req: Request, res: Response) => {
  *       500:
  *         description: Failed to update business
  */
-export const UpdateCategory = async (req: Request, res: Response) => {
+export const UpdateBusiness = async (req: Request, res: Response) => {
   try {
-    const { id, name, address, service } = req.body;
-    const newBusines = await updateBusiness(id, name, address, service);
+    const { id, name, address, about, email , phone } = req.body;
+    const newBusines = await updateBusiness(id, name, address, about, phone , email);
     res.send(newBusines);
   } catch (error) {
     console.error('Failed to update business:', error);

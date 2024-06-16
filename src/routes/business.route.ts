@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.get('/business',checkAdminRole, businessController.GetBusiness)
 router.post('/business',checkAdminRole, businessController.AddBusiness);
-router.put('/business',checkAdminRole, businessController.UpdateCategory);
+router.put('/business',checkAdminRole, businessController.UpdateBusiness);
 
 export default router;

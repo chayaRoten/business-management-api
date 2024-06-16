@@ -11,9 +11,9 @@ export const getBusiness = async (): Promise<any> => {
   }
 }
 
-export const addBusiness = async (id: number, name: string, address: string, services: string): Promise<string> => {
+export const addBusiness = async (id: number, name: string, address: string, about: string , phone :string , email: string): Promise<string> => {
   try {
-    await BusinessModel.insertMany({ id, name, address, services });
+    await BusinessModel.insertMany({ id, name, address, about, phone, email });
     return 'Data Received!';
   } catch (error) {
     console.error('Error adding business:', error);
@@ -22,9 +22,9 @@ export const addBusiness = async (id: number, name: string, address: string, ser
 };
 
 
-export const updateBusiness = async (id: number, name: string, address: string, services: string): Promise<string> => {
+export const updateBusiness = async (id: number, name: string, address: string, about: string , phone :string , email: string): Promise<string> => {
   try {
-    await BusinessModel.updateOne({ id }, { name, address, services });
+    await BusinessModel.updateOne({ id }, { name, address, about, phone , email });
     return 'Data Updated!';
   } catch (error) {
     console.error('Error updating business:', error);
