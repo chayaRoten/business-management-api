@@ -40,7 +40,6 @@ export const signin = async (email: string, password: string, username: string):
     }
 };
 
-
 export const signup = async (email: string, password: string, username: string): Promise<string | undefined> => {
     try {
         if (!(email && password && username)) {
@@ -77,6 +76,3 @@ export const signup = async (email: string, password: string, username: string):
         return 'Error occurred during signup';
     }
 };
-
-
-

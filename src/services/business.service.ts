@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { BusinessModel } from '../models/business.model';
 
+
+
 export const getBusiness = async (): Promise<any> => {
   try {
     const business = await BusinessModel.find().exec();
@@ -20,7 +22,6 @@ export const addBusiness = async (id: number, name: string, address: string, abo
     throw new Error('Failed to add business.');
   }
 };
-
 
 export const updateBusiness = async (id: number, name: string, address: string, about: string , phone :string , email: string): Promise<string> => {
   try {

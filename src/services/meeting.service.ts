@@ -2,6 +2,7 @@
 import { MeetingModel } from '../models/meeting.model';
 import { UserModel } from '../models/user.model';
 
+
 export const getMeetings = async (id: number): Promise<any> => {
     try {
         const user = await UserModel.findOne({ id }).exec();         
@@ -29,14 +30,11 @@ export const getMeeting = async (id: number): Promise<any> => {
     }
 }
 
-
-
 export const addMeeting = async (clientName: string, note: string, serviceType: string, date: string, startTime: string,clientEmail:string): Promise<string> => {
-    try {
-        // console.log(clientName + " ", note + " ",serviceType +" " , date+ " " ,startTime +" ", clientEmail+" ");
-        
-        const existingMeeting = await MeetingModel.findOne({ date, startTime });
-        if (existingMeeting) {
+    try {        
+        const existingMeeting = await MeetingModel.findOne({ date });
+
+        if (existingMeeting && (existingMeeting?.startTime==startTime)) {
             throw new Error('Meeting already scheduled for this date and time.');
         }
         const lastMeeting = await MeetingModel.findOne().sort({ id: -1 }).exec();
@@ -48,6 +46,7 @@ export const addMeeting = async (clientName: string, note: string, serviceType: 
         throw new Error('Failed to add meeting.');
     }
 };
+
 export const updateMeeting = async (clientName: string, note: string, serviceType: string, date: string, startTime: string, id: number , clientEmail:string) : Promise<string> => {
     try {
         const existingMeeting = await MeetingModel.findOne({ date, startTime });
