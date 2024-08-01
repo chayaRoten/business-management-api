@@ -5,17 +5,20 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-export const getUsers = async (): Promise<string | unknown> => {
+export const getUsers = async (): Promise<string | unknown> => 
+{
     const users = await UserModel.find().exec();
     return users
 }
 
-export const getUserByName = async (name: string): Promise<number> => {
+export const getUserByName = async (name: string): Promise<number> => 
+{
     const user = await UserModel.findOne({ username: name }).exec();
     return user?.id;
 }
 
-export const signin = async (email: string, password: string, username: string): Promise<string> => {
+export const signin = async (email: string, password: string, username: string): Promise<string> => 
+{
     try {
         const user = await UserModel.findOne({ email, username }).exec();
         if (!user) {
@@ -40,7 +43,8 @@ export const signin = async (email: string, password: string, username: string):
     }
 };
 
-export const signup = async (email: string, password: string, username: string): Promise<string | undefined> => {
+export const signup = async (email: string, password: string, username: string): Promise<string | undefined> => 
+{
     try {
         if (!(email && password && username)) {
             return 'All input is required';
