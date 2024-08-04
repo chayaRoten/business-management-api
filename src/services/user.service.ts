@@ -51,12 +51,20 @@ export const signup = async (email: string, password: string, username: string):
         }
 
         const existingUser = await UserModel.findOne({ email, username }).exec();
+        console.log('Existing user:', existingUser);
+
         if (existingUser) {
             return 'User Already Exist. Please Login';
         }
+        console.log('aaa', email, password, username);
+
         const lastUser = await UserModel.findOne().sort({ id: -1 }).exec();
+        console.log('Last user:', lastUser);
+
         const newId = lastUser ? lastUser.id + 1 : 1;
         const encryptedPassword = await bcrypt.hash(password, 10);
+        console.log('Encrypted password:', encryptedPassword);
+
         const newUser = {
             username,
             id: newId,
@@ -66,16 +74,15 @@ export const signup = async (email: string, password: string, username: string):
         };
 
         await UserModel.insertMany(newUser);
+        console.log('User inserted:', newUser);
+
         const token = jwt.sign(
             { user_id: newUser?.id, username, email, role: newUser?.role },
             process.env.TOKEN_KEY || '',
-            {
-                expiresIn: '2h'
-            }
+            { expiresIn: '2h' }
         );
         return token;
     } catch (err) {
-        console.log(err);
         console.error('Error occurred during signup:', err);
         return 'Error occurred during signup';
     }
