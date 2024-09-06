@@ -55,13 +55,13 @@ describe('Service Service', () => {
       const mockService = { id: 1, name: 'Service1', cost: 100 };
       (ServiceModel.findOne as jest.Mock).mockReturnValue({ exec: jest.fn().mockResolvedValue(mockService) });
 
-      await expect(addService('Service1', 200)).rejects.toThrow('Failed to add service.');
+      await expect(addService('Service1', 200)).rejects.toThrow('Service with this name already exists.');
     });
 
     it('should handle errors gracefully', async () => {
       (ServiceModel.findOne as jest.Mock).mockReturnValue({ exec: jest.fn().mockRejectedValue(new Error('DB error')) });
 
-      await expect(addService('Service3', 300)).rejects.toThrow('Failed to add service.');
+      await expect(addService('Service3', 300)).rejects.toThrow('DB error');
     });
   });
 

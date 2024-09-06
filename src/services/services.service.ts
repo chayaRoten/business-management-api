@@ -23,7 +23,7 @@ export const getService = async (id: number): Promise<string | any> => {
 
 export const addService = async (name: string, cost: number): Promise<string> => {
   try {
-    const existingService = await ServiceModel.findOne({ name });
+    const existingService = await ServiceModel.findOne({ name }).exec();
     if (existingService) {
       throw new Error('Service with this name already exists.');
     }
@@ -31,9 +31,9 @@ export const addService = async (name: string, cost: number): Promise<string> =>
     const newId = lastServices ? lastServices.id + 1 : 1;
     await ServiceModel.insertMany({ name, cost: cost, id: newId });
     return 'Data Received!';
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error adding service:', error);
-    throw new Error('Failed to add service.');
+    throw new Error(error.message || 'Failed to add service.');
   }
 };
 
