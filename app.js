@@ -1,0 +1,33 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const body_parser_1 = __importDefault(require("body-parser"));
+const cors_1 = __importDefault(require("cors"));
+require("./src/services/db.service");
+const dotenv_1 = __importDefault(require("dotenv"));
+const swagger_1 = __importDefault(require("./src/routes/swagger"));
+const business_route_1 = __importDefault(require("./src/routes/business.route"));
+const meeting_route_1 = __importDefault(require("./src/routes/meeting.route"));
+const services_route_1 = __importDefault(require("./src/routes/services.route"));
+const user_route_1 = __importDefault(require("./src/routes/user.route"));
+const authentication_middlewares_1 = require("./src/middlewares/authentication.middlewares");
+const logger_middleware_1 = __importDefault(require("./src/middlewares/logger.middleware"));
+dotenv_1.default.config();
+const app = (0, express_1.default)();
+const PORT = process.env.PORT;
+(0, swagger_1.default)(app);
+app.use(body_parser_1.default.json());
+app.use(body_parser_1.default.urlencoded({ extended: false }));
+app.use((0, cors_1.default)());
+app.use(logger_middleware_1.default);
+app.use(user_route_1.default);
+app.use(authentication_middlewares_1.authenticateToken);
+app.use(business_route_1.default);
+app.use(meeting_route_1.default);
+app.use(services_route_1.default);
+app.listen(PORT, () => {
+    console.log(`listening on http://localhost:${PORT}`);
+});
