@@ -25,10 +25,10 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cors())
 app.use(loggerMiddlewares)
 app.use(userRouter);
-app.use(authenticateToken);
+app.use(serviceRouter);
+// app.use(authenticateToken);
 app.use(businessRouter);
 app.use(meetingRouter);
-app.use(serviceRouter);
 
 
 

@@ -1,12 +1,12 @@
 import express from 'express';
 import * as businessController from '../controllers/business.controller';
-import {checkAdminRole}  from '../middlewares/authentication.middlewares'
+import { checkAdminRole, authenticateToken } from '../middlewares/authentication.middlewares'
 
 const router = express.Router();
 
 
-router.get('/business',checkAdminRole, businessController.GetBusiness)
-router.post('/business',checkAdminRole, businessController.AddBusiness);
-router.put('/business',checkAdminRole, businessController.UpdateBusiness);
+router.get('/business', checkAdminRole, authenticateToken, businessController.GetBusiness)
+router.post('/business', checkAdminRole, authenticateToken, businessController.AddBusiness);
+router.put('/business', checkAdminRole, authenticateToken, businessController.UpdateBusiness);
 
 export default router;
