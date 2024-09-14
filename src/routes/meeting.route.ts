@@ -1,14 +1,14 @@
 import express from 'express';
 import * as businessController from '../controllers/meeting.controller';
-import {checkAdminRole}  from '../middlewares/authentication.middlewares'
+import { checkAdminRole, authenticateToken } from '../middlewares/authentication.middlewares'
 
 const router = express.Router();
 
 router.get('/meetings', businessController.GetMeetings)
-router.get('/meeting/:id', businessController.GetMeeting)
-router.post('/meetings', businessController.AddMeeting);
-router.put('/meetings/:id',checkAdminRole, businessController.UpdateMeeting);
-router.delete('/meetings/:id', businessController.DeleteMeeting);
+router.get('/meeting/:id', authenticateToken, businessController.GetMeeting)
+router.post('/meetings', authenticateToken, businessController.AddMeeting);
+router.put('/meetings/:id', authenticateToken, checkAdminRole, businessController.UpdateMeeting);
+router.delete('/meetings/:id', authenticateToken, businessController.DeleteMeeting);
 
 
 export default router;
