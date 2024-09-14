@@ -4,7 +4,7 @@ import { checkAdminRole, authenticateToken } from '../middlewares/authentication
 
 const router = express.Router();
 
-router.get('/meetings', businessController.GetMeetings)
+router.get('/meetings', authenticateToken, businessController.GetMeetings)
 router.get('/meeting/:id', authenticateToken, businessController.GetMeeting)
 router.post('/meetings', authenticateToken, businessController.AddMeeting);
 router.put('/meetings/:id', authenticateToken, checkAdminRole, businessController.UpdateMeeting);
