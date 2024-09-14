@@ -5,7 +5,7 @@ import { checkAdminRole, authenticateToken } from '../middlewares/authentication
 const router = express.Router();
 
 router.get('/services', serviceController.GetServices)
-router.get('/service/:id', checkAdminRole, authenticateToken, serviceController.GetService)
+router.get('/service/:id', authenticateToken, checkAdminRole, serviceController.GetService)
 router.post('/services',authenticateToken, checkAdminRole, serviceController.AddService);
 router.put('/services/:id', authenticateToken, checkAdminRole,  serviceController.UpdateService);
 router.delete('/services/:id', authenticateToken, checkAdminRole, serviceController.DeleteService);

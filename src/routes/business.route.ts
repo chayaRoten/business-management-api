@@ -5,8 +5,8 @@ import { checkAdminRole, authenticateToken } from '../middlewares/authentication
 const router = express.Router();
 
 
-router.get('/business', authenticateToken, checkAdminRole, businessController.GetBusiness)
-router.post('/business', authenticateToken, checkAdminRole,  businessController.AddBusiness);
+router.get('/business',authenticateToken, checkAdminRole, businessController.GetBusiness)
+router.post('/business', authenticateToken, checkAdminRole, businessController.AddBusiness);
 router.put('/business', authenticateToken, checkAdminRole,  businessController.UpdateBusiness);
 
 export default router;
