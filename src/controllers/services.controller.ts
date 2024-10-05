@@ -67,6 +67,9 @@ export const GetService = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
     const service = await getService(id);
+    if (!service) {
+      return res.status(404).send('Service not found.');
+  }
     res.send(service);
   } catch (error) {
     console.error('Error retrieving service:', error);
@@ -104,11 +107,10 @@ export const AddService = async (req: Request, res: Response) => {
   try {
     const { name, cost } = req.body;
     if (!name || !cost) {
-      res.status(400).send('Name and cost are required.');
-      return;
+      return res.status(400).send('Both name and cost are required.');
     }
     const newService = await addService(name, cost);
-    res.send(newService);
+    res.status(201).send(newService);
   } catch (error) {
     console.error('Error adding service:', error);
     res.status(500).send('Failed to add service.');
@@ -153,8 +155,7 @@ export const UpdateService = async (req: Request, res: Response) => {
     const id =  Number(req.params.id);
     const { name, cost } = req.body;
     if (!name || !cost) {
-      res.status(400).send('Name and cost are required.');
-      return;
+      return res.status(400).send('Name and cost are required.');
     }
     const updatedService = await updateService(id, name, cost);
     res.send(updatedService);
@@ -187,8 +188,7 @@ export const DeleteService = async (req: Request, res: Response) => {
   try {
     const id  = Number(req.params.id);
     if (!id) {
-      res.status(400).send('serviceName is required.');
-      return;
+      return res.status(400).send('Service ID is required.');
     }
     const deletedService = await deleteService(id);
     res.send(deletedService);

@@ -17,7 +17,11 @@ import { getBusiness, addBusiness, updateBusiness } from '../services/business.s
 export const GetBusiness = async (req: Request, res: Response) => {
   try {
     const business = await getBusiness()
-    res.send(business)
+    if (!business || business.length === 0) {
+      return res.status(404).send('No businesses found');
+    }
+
+    res.status(200).json(business);
   } catch (error) {
     console.error('Failed to get business:', error);
     res.status(500).send('Failed to get business');
@@ -67,8 +71,13 @@ export const GetBusiness = async (req: Request, res: Response) => {
 export const AddBusiness = async (req: Request, res: Response) => {
   try {
     const { id, name, address, about, phone, email } = req.body;
+
+    if (!id || !name || !address || !about || !phone || !email) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+
     const newBusines = await addBusiness(id, name, address, about, phone ,email);
-    res.send(newBusines);
+     res.status(201).send(newBusines);
   } catch (error) {
     console.error('Failed to add business:', error);
     res.status(500).send('Failed to add business');
@@ -118,8 +127,13 @@ export const AddBusiness = async (req: Request, res: Response) => {
 export const UpdateBusiness = async (req: Request, res: Response) => {
   try {
     const { id, name, address, about, email , phone } = req.body;
+
+    if (!id || !name || !address || !about || !phone || !email) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+
     const newBusines = await updateBusiness(id, name, address, about, phone , email);
-    res.send(newBusines);
+     res.status(200).send(newBusines);
   } catch (error) {
     console.error('Failed to update business:', error);
     res.status(500).send('Failed to update business');

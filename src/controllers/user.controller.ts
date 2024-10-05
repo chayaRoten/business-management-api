@@ -107,7 +107,12 @@ export const signIn = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password, username } = req.body;
     const result = await signin(email, password, username);
-    res.send(result);
+
+    if (typeof result === 'string') {
+      res.status(200).send(result);
+    } else {
+      res.status(400).send('Unexpected error during sign in.');
+    }
   } catch (error: any) {
     console.log(`error in log in ${error.message}`);
     res.status(500).send('error in log in');
@@ -151,9 +156,19 @@ export const signUp = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password, username } = req.body;
     const result = await signup(email, password, username);
-    res.send(result);
+
+    if (typeof result === 'string') {
+      res.status(201).send(result);
+    } else {
+      res.status(400).send('Unexpected error during sign up.');
+    }
   } catch (error: any) {
-    console.log(`error in sign in ${error.message}`);
-    res.status(500).send('error in sign in');
+    console.error(`Error in sign up: ${error.message}`);
+
+    if (error.message === 'User Already Exist. Please Login') {
+      res.status(409).send(error.message);
+    } else {
+      res.status(500).send('Error in sign up');
+    }
   }
 };

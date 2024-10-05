@@ -104,6 +104,11 @@ export const AddMeeting = async (req: AuthRequest | any, res: Response) => {
   try {
     const { note, serviceType, date, startTime, clientEmail} = req.body;
     const user_name = req.user?.username;
+
+    if (!note || !serviceType || !date || !startTime || !clientEmail) {
+      return res.status(400).json({ message: 'All fields are required.' });
+    }
+
     const newMeeting = await addMeeting( user_name,  note, serviceType, date, startTime,clientEmail);
     res.status(201).json({ message: newMeeting });
   } catch (error) {
@@ -207,15 +212,14 @@ export const DeleteMeeting = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
     if (!id) {
-      res.status(400).json({ message: 'Invalid meeting ID' });
-      return;
+      return res.status(400).json({ message: 'Invalid meeting ID' });
     }
     const deletedMeeting = await deleteMeeting(id);
     if (!deletedMeeting) {
-      res.status(404).json({ message: 'Meeting not found' });
-      return;
+      return res.status(404).json({ message: 'Meeting not found' });
     }
-    res.status(200).json({ message: 'Meeting deleted successfully' });
+    
+    res.status(204).send();
   } catch (error) {
     console.error('Error deleting meeting:', error);
     res.status(500).json({ message: 'Failed to delete meeting' });
