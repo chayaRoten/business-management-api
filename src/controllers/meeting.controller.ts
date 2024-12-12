@@ -105,7 +105,7 @@ export const AddMeeting = async (req: AuthRequest | any, res: Response) => {
     const { note, serviceType, date, startTime, clientEmail} = req.body;
     const user_name = req.user?.username;
 
-    if (!note || !serviceType || !date || !startTime || !clientEmail) {
+    if (!serviceType || !date || !startTime || !clientEmail) {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 

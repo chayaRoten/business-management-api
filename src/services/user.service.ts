@@ -61,7 +61,6 @@ export const signup = async (email: string, password: string, username: string):
         }
 
         const existingUser = await UserModel.findOne({ email, username }).exec();
-        console.log('Existing user:', existingUser);
 
         if (existingUser) {
             throw new Error('User Already Exist. Please Login');
@@ -71,7 +70,6 @@ export const signup = async (email: string, password: string, username: string):
 
         const newId = lastUser ? lastUser.id + 1 : 1;
         const encryptedPassword = await bcrypt.hash(password, 10);
-        console.log('Encrypted password:', encryptedPassword);
 
         const newUser = {
             username,
@@ -82,7 +80,6 @@ export const signup = async (email: string, password: string, username: string):
         };
 
         await UserModel.insertMany(newUser);
-        console.log('User inserted:', newUser);
 
         const token = jwt.sign(
             { user_id: newUser?.id, username, email, role: newUser?.role },

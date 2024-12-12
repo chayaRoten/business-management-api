@@ -9,7 +9,6 @@ import businessRouter from './src/routes/business.route'
 import meetingRouter from './src/routes/meeting.route'
 import serviceRouter from './src/routes/services.route'
 import userRouter from './src/routes/user.route'
-import {authenticateToken}  from './src/middlewares/authentication.middlewares'
 import loggerMiddlewares from './src/middlewares/logger.middleware'
 
 

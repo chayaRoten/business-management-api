@@ -27,7 +27,6 @@ const authenticateToken = (req: AuthRequest, res: Response, next: NextFunction) 
 
 const checkAdminRole = (req: AuthRequest, res: Response, next: NextFunction) => {
     const user = req.user;
-    console.log("user  "+ user);
     
     if (user && user.role === 'admin') {
         next();
